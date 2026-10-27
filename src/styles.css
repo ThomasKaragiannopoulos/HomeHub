@@ -15,6 +15,28 @@ header { display: flex; align-items: center; justify-content: space-between; gap
 .track a::before { content: "●"; margin-right: 10px; font-size: 0.6em; vertical-align: middle; }
 @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .track { animation: none; } .track-wrap { overflow-x: auto; } }
+.lights { margin-top: 24px; }
+.lights header h2 { margin: 20px 0 4px; }
+.switch { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.scenes { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 10px; margin: 12px 0; }
+.scenes button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 8px; background: #1b1b1b; color: inherit; border: 1px solid #2a2a2a; border-radius: 12px; font: inherit; cursor: pointer; }
+.scenes button small { color: #888; }
+.scenes button .icon { font-size: 1.6rem; }
+.scenes button.active { border-color: #4ade80; background: #17261c; }
+.scenes button:disabled { opacity: 0.4; cursor: default; }
+.controls { display: grid; gap: 14px; margin-top: 8px; }
+.controls label { display: grid; gap: 6px; }
+.open-menu { width: 100%; margin-top: 8px; padding: 12px; background: #1b1b1b; color: inherit; border: 1px solid #2a2a2a; border-radius: 12px; font: inherit; cursor: pointer; }
+.device-menu { width: min(520px, calc(100vw - 32px)); max-height: 85vh; overflow-y: auto; background: #161616; color: inherit; border: 1px solid #2a2a2a; border-radius: 16px; padding: 8px 20px 20px; }
+.device-menu::backdrop { background: rgba(0, 0, 0, 0.7); }
+.device-menu header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.device-menu header button { background: #1b1b1b; color: inherit; border: 1px solid #2a2a2a; border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+.device { padding: 12px 0; border-top: 1px solid #2a2a2a; }
+.kelvin { accent-color: #fbbf24; }
+.channel.r { accent-color: #f87171; }
+.channel.g { accent-color: #4ade80; }
+.channel.b { accent-color: #60a5fa; }
+.swatch { height: 28px; border-radius: 8px; border: 1px solid #2a2a2a; }
 .clock { margin: 8px 0 24px; }
 .clock .time { font-size: 4rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
 .weather { margin-bottom: 24px; }

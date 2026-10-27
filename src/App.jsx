@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { STOPS, REFRESH_MS } from "./config.js";
 import { getArrivals, getStop } from "./oasa.js";
 import Clock from "./Clock.jsx";
+import Lights from "./Lights.jsx";
 import News from "./News.jsx";
 import Weather from "./Weather.jsx";
 
@@ -72,6 +73,7 @@ export default function App() {
             <StopCard key={s.code} stop={s} tick={tick} />
           ))}
         </div>
+        <Lights />
       </main>
     </>
   );
