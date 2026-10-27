@@ -1,3 +1,3 @@
-// Placeholder stop (STROFH). Replace with your real OASA stop code.
-export const STOP_CODE = "10001";
+// Stops come from .env (VITE_STOPS, JSON array) so they stay out of the public repo. See .env.example.
+export const STOPS = JSON.parse(import.meta.env.VITE_STOPS ?? "[]");
 export const REFRESH_MS = 20000;
