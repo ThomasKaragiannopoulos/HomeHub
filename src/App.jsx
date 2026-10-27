@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { STOPS, REFRESH_MS } from "./config.js";
 import { getArrivals, getStop } from "./oasa.js";
+import Clock from "./Clock.jsx";
+import News from "./News.jsx";
+import Weather from "./Weather.jsx";
 
 function StopCard({ stop: { code, note, lineCodes }, tick }) {
   const [stop, setStop] = useState(null);
@@ -53,18 +56,23 @@ export default function App() {
   }, []);
 
   return (
-    <main>
-      <header>
-        <h1>HomeHub</h1>
-        <span className="timer" title="Next refresh">
-          <span key={tick} style={{ animationDuration: `${REFRESH_MS}ms` }} />
-        </span>
-      </header>
-      <div className="slides">
-        {STOPS.map((s) => (
-          <StopCard key={s.code} stop={s} tick={tick} />
-        ))}
-      </div>
-    </main>
+    <>
+      <News />
+      <main>
+        <header>
+          <h1>HomeHub</h1>
+          <span className="timer" title="Next refresh">
+            <span key={tick} style={{ animationDuration: `${REFRESH_MS}ms` }} />
+          </span>
+        </header>
+        <Clock />
+        <Weather />
+        <div className="slides">
+          {STOPS.map((s) => (
+            <StopCard key={s.code} stop={s} tick={tick} />
+          ))}
+        </div>
+      </main>
+    </>
   );
 }
