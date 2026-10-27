@@ -60,9 +60,11 @@ export default function App() {
           <span key={tick} style={{ animationDuration: `${REFRESH_MS}ms` }} />
         </span>
       </header>
-      {STOPS.map((s) => (
-        <StopCard key={s.code} stop={s} tick={tick} />
-      ))}
+      <div className="slides">
+        {STOPS.map((s) => (
+          <StopCard key={s.code} stop={s} tick={tick} />
+        ))}
+      </div>
     </main>
   );
 }
