@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { STOPS, REFRESH_MS } from "./config.js";
 import { getArrivals, getStop } from "./oasa.js";
+import Ac from "./Ac.jsx";
 import Clock from "./Clock.jsx";
+import Tv from "./Tv.jsx";
 import Lights from "./Lights.jsx";
 import News from "./News.jsx";
 import Weather from "./Weather.jsx";
@@ -74,6 +76,8 @@ export default function App() {
           ))}
         </div>
         <Lights />
+        <Ac />
+        <Tv />
       </main>
     </>
   );
