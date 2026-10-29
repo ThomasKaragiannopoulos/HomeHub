@@ -4,7 +4,7 @@ export const MODES = ["auto", "cool", "heat", "dry", "fan"];
 export const FAN_SPEEDS = ["auto", "low", "medium", "high"];
 export const TEMP_RANGE = { min: 16, max: 30 };
 
-let state = { on: false, mode: "cool", temp: 24, fan: "auto", swing: false };
+let state = { on: true, mode: "cool", temp: 22, fan: "medium", swing: false };
 const delay = () => new Promise((r) => setTimeout(r, 120));
 
 export const getAc = async () => {

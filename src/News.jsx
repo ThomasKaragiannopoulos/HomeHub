@@ -33,7 +33,7 @@ export default function News() {
 
   return (
     <div className="ticker">
-      <span className="label">Νέα AI · AI news</span>
+      <span className="label">✦ AI NEWS · ΝΕΑ AI</span>
       {error && <span className="ticker-msg">Δεν φορτώθηκαν τα νέα / Could not load news.</span>}
       {!error && news === null && <span className="ticker-msg">Φόρτωση… / Loading…</span>}
       {!error && news?.length === 0 && <span className="ticker-msg">Καμία είδηση / No news.</span>}

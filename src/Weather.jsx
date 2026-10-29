@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { WEATHER, WEATHER_REFRESH_MS } from "./config.js";
+import AnimatedNumber from "./ambient/AnimatedNumber.jsx";
 import { describe, getWeather } from "./weather.js";
 
-const deg = (n) => `${Math.round(n)}°`;
+const Deg = ({ value }) => (
+  <>
+    <AnimatedNumber value={Math.round(value)} />°
+  </>
+);
 
 export default function Weather() {
   const [weather, setWeather] = useState(null);
@@ -23,33 +28,86 @@ export default function Weather() {
   }, []);
 
   if (!WEATHER) {
-    return <p className="muted">Δεν έχει οριστεί τοποθεσία καιρού / Weather location not set (VITE_WEATHER).</p>;
+    return (
+      <section className="weather">
+        <p className="muted">Δεν έχει οριστεί τοποθεσία καιρού / Weather location not set (VITE_WEATHER).</p>
+      </section>
+    );
   }
-  if (error) return <p className="error">Δεν φορτώθηκε ο καιρός / Could not load weather.</p>;
-  if (!weather) return <p className="muted">Φόρτωση… / Loading…</p>;
+  if (error) {
+    return (
+      <section className="weather">
+        <p className="error">Δεν φορτώθηκε ο καιρός / Could not load weather.</p>
+      </section>
+    );
+  }
+  if (!weather) {
+    return (
+      <section className="weather">
+        <p className="muted">Φόρτωση… / Loading…</p>
+      </section>
+    );
+  }
 
   const now = describe(weather.code);
   return (
     <section className="weather">
-      <h2>{WEATHER.name}</h2>
       <div className="now">
-        <span className="icon">{now.icon}</span>
-        <span className="temp">{deg(weather.temp)}</span>
-        <div>
-          <div>{now.el} · {now.en}</div>
-          <div className="muted">
-            Αίσθηση / Feels {deg(weather.feels)} · Άνεμος / Wind {Math.round(weather.wind)} km/h
-          </div>
-          <div className="muted">Μέγ / High {deg(weather.hi)} · Ελάχ / Low {deg(weather.lo)}</div>
+        <div className="temp">
+          <AnimatedNumber value={Math.round(weather.temp)} />
+          <sup>°</sup>
         </div>
+        <div className="cond fade-in" key={now.en}>
+          {now.en}
+          <small>{now.el}</small>
+        </div>
+        <div className="loc">{WEATHER.name}</div>
+        <dl className="metrics">
+          <div>
+            <dt>
+              Feels like<small>Αίσθηση</small>
+            </dt>
+            <dd>
+              <Deg value={weather.feels} />
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Wind<small>Άνεμος</small>
+            </dt>
+            <dd>
+              <AnimatedNumber value={Math.round(weather.wind)} /> <span>km/h</span>
+            </dd>
+          </div>
+          <div>
+            <dt>
+              High<small>Μέγ</small>
+            </dt>
+            <dd>
+              <Deg value={weather.hi} />
+            </dd>
+          </div>
+          <div>
+            <dt>
+              Low<small>Ελάχ</small>
+            </dt>
+            <dd>
+              <Deg value={weather.lo} />
+            </dd>
+          </div>
+        </dl>
       </div>
       <ul className="hours">
         {weather.hours.map((h) => (
           <li key={h.time}>
-            <span className="muted">{h.time.slice(11, 16)}</span>
-            {h.nextDay && <small className="muted">αύριο / tmrw</small>}
-            <span>{describe(h.code).icon}</span>
-            <b>{deg(h.temp)}</b>
+            <span>{h.time.slice(11, 16)}</span>
+            {h.nextDay && <small>tmrw · αύριο</small>}
+            <span className="icon fade-in" key={describe(h.code).icon}>
+              {describe(h.code).icon}
+            </span>
+            <b>
+              <Deg value={h.temp} />
+            </b>
           </li>
         ))}
       </ul>

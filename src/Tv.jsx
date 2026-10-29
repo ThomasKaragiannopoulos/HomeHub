@@ -1,36 +1,16 @@
 import { useState } from "react";
 import { sendKey } from "./tv.js";
+import { Icon, Toggle } from "./ui.jsx";
 
-// Stateless remote: every button just sends a key.
-const ROWS = [
-  [
-    { key: "power", label: "⏻", title: "Ενεργοποίηση / Power", cls: "power" },
-    { key: "input", label: "Είσοδος · Input" },
-    { key: "mute", label: "🔇", title: "Σίγαση / Mute" },
-  ],
-  [
-    null,
-    { key: "up", label: "▲", title: "Πάνω / Up" },
-    null,
-    { key: "left", label: "◀", title: "Αριστερά / Left" },
-    { key: "ok", label: "OK", cls: "ok" },
-    { key: "right", label: "▶", title: "Δεξιά / Right" },
-    null,
-    { key: "down", label: "▼", title: "Κάτω / Down" },
-    null,
-  ],
-  [
-    { key: "back", label: "↩ Πίσω · Back" },
-    { key: "home", label: "⌂ Αρχική · Home" },
-  ],
-];
-
-const PAIRS = [
-  { up: "volume_up", down: "volume_down", label: "Ένταση / Vol" },
-  { up: "channel_up", down: "channel_down", label: "Κανάλι / Ch" },
-];
+const YoutubeLogo = () => (
+  <svg viewBox="0 0 28 20" width="28" height="20" aria-hidden="true">
+    <rect width="28" height="20" rx="5" fill="#ff1f2d" />
+    <path d="M11 6l7 4-7 4z" fill="#fff" />
+  </svg>
+);
 
 export default function Tv() {
+  const [on, setOn] = useState(true);
   const [error, setError] = useState(null);
 
   const press = (key) =>
@@ -38,33 +18,62 @@ export default function Tv() {
       .then(() => setError(null))
       .catch(setError);
 
-  const button = (b, i) =>
-    b ? (
-      <button key={b.key} className={b.cls} title={b.title} onClick={() => press(b.key)}>
-        {b.label}
-      </button>
-    ) : (
-      <span key={`gap-${i}`} />
-    );
+  // The mock cannot read the TV's real power state, so the switch just tracks the presses.
+  const power = () => {
+    setOn((o) => !o);
+    press("power");
+  };
+
+  const key = (k, children) => (
+    <button className="key" onClick={() => press(k)} aria-label={typeof children === "string" ? children : k}>
+      {children}
+    </button>
+  );
 
   return (
-    <section className="remote tv">
-      <h2>Τηλεόραση · Sony TV</h2>
-      <p className="muted">Δοκιμαστικό, δεν ελέγχει την τηλεόραση / Demo, not connected to the TV.</p>
+    <section className="panel tv">
+      <header className="panel-head">
+        <h2>
+          Sony TV<small>Τηλεόραση</small>
+        </h2>
+        <Toggle checked={on} label="Τηλεόραση / TV" onChange={power} />
+      </header>
+      <p className="demo">Demo, not connected · Δοκιμαστικό, δεν ελέγχει την τηλεόραση</p>
       {error && <p className="error">Αποτυχία εντολής / Command failed.</p>}
 
-      <div className="pad top">{ROWS[0].map(button)}</div>
-      <div className="pad dpad">{ROWS[1].map(button)}</div>
-      <div className="pad top">{ROWS[2].map(button)}</div>
-
-      <div className="pairs">
-        {PAIRS.map((p) => (
-          <div key={p.label} className="pair">
-            <button onClick={() => press(p.up)} aria-label={`${p.label} +`}>+</button>
-            <small className="muted">{p.label}</small>
-            <button onClick={() => press(p.down)} aria-label={`${p.label} −`}>−</button>
-          </div>
-        ))}
+      <div className="tv-layout">
+        <div className="keys r1">
+          <button className="key power" onClick={power} aria-label="Power · Ενεργοποίηση">
+            <Icon name="power" />
+          </button>
+          {key("input", "Input")}
+          {key("mute", <Icon name="mute" />)}
+        </div>
+        <div className="keys r2">
+          {key("youtube", <><YoutubeLogo /> YouTube</>)}
+          {key("hdmi1", <><Icon name="hdmi" /> HDMI 1</>)}
+        </div>
+        <div className="keys r3">
+          {key("back", <><Icon name="back" size={20} /> Back</>)}
+          {key("home", <><Icon name="home" size={20} /> Home</>)}
+        </div>
+        <div className="dpad">
+          <button className="up" onClick={() => press("up")} aria-label="Up · Πάνω">
+            <Icon name="up" size={20} />
+          </button>
+          <button className="left" onClick={() => press("left")} aria-label="Left · Αριστερά">
+            <Icon name="left" size={20} />
+          </button>
+          <button className="ok" onClick={() => press("ok")}>
+            OK
+          </button>
+          <button className="right" onClick={() => press("right")} aria-label="Right · Δεξιά">
+            <Icon name="right" size={20} />
+          </button>
+          <button className="down" onClick={() => press("down")} aria-label="Down · Κάτω">
+            <Icon name="down" size={20} />
+          </button>
+        </div>
       </div>
     </section>
   );

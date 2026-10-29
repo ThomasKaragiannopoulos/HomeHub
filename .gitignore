@@ -6,3 +6,6 @@ secrets.yaml
 home-assistant_v2.db*
 node_modules/
 dist/
+# painted artwork (not part of the code)
+public/bg.jpg
+public/scenes/

@@ -8,8 +8,8 @@ const device = (id, name) => ({ id, name, on: true, brightness: 80, color: { r: 
 let state = {
   on: true,
   scene: "colour",
-  brightness: 80,
-  color: { r: 255, g: 184, b: 108 },
+  brightness: 70,
+  color: { r: 180, g: 60, b: 255 },
   kelvin: 3000,
   devices: [device("tv", "TV Backlight 3 Lite"), device("strip", "Light strip"), device("lamp", "Floor lamp")],
 };
